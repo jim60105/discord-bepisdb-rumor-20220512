@@ -1,0 +1,3553 @@
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>BepisDB - general</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+
+    <style>
+        @font-face {
+            src: url(BepisDB%20-%20first%20circle%20-%20general%20%5B764811948462047246%5D%20%28after%202022-05-12%29.html_Files/whitney-300-1FE35.woff);
+            font-family: Whitney;
+            font-weight: 300;
+        }
+
+        @font-face {
+            src: url(BepisDB%20-%20first%20circle%20-%20general%20%5B764811948462047246%5D%20%28after%202022-05-12%29.html_Files/whitney-400-83E7B.woff);
+            font-family: Whitney;
+            font-weight: 400;
+        }
+
+        @font-face {
+            src: url(BepisDB%20-%20first%20circle%20-%20general%20%5B764811948462047246%5D%20%28after%202022-05-12%29.html_Files/whitney-500-47E37.woff);
+            font-family: Whitney;
+            font-weight: 500;
+        }
+
+        @font-face {
+            src: url(BepisDB%20-%20first%20circle%20-%20general%20%5B764811948462047246%5D%20%28after%202022-05-12%29.html_Files/whitney-600-9EC09.woff);
+            font-family: Whitney;
+            font-weight: 600;
+        }
+
+        @font-face {
+            src: url(BepisDB%20-%20first%20circle%20-%20general%20%5B764811948462047246%5D%20%28after%202022-05-12%29.html_Files/whitney-700-A7A71.woff);
+            font-family: Whitney;
+            font-weight: 700;
+        }
+
+        html, body {
+            margin: 0;
+            padding: 0;
+            background-color: #36393e;
+            color: #dcddde;
+            font-family: Whitney, "Helvetica Neue", Helvetica, Arial, sans-serif;
+            font-size: 17px;
+            font-weight: 400;
+        }
+
+        a {
+            color: #00aff4;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        img {
+            object-fit: contain;
+            image-rendering: high-quality;
+            image-rendering: -webkit-optimize-contrast;
+        }
+
+        .preamble {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            max-width: 100%;
+            padding: 1rem;
+        }
+
+        .preamble__guild-icon-container {
+            grid-column: 1;
+        }
+
+        .preamble__guild-icon {
+            max-width: 88px;
+            max-height: 88px;
+        }
+
+        .preamble__entries-container {
+            grid-column: 2;
+            margin-left: 1rem;
+        }
+
+        .preamble__entry {
+            margin-bottom: 0.15rem;
+            color: #ffffff;
+            font-size: 1.4rem;
+        }
+
+        .preamble__entry--small {
+            font-size: 1rem;
+        }
+
+        .chatlog {
+            padding: 1rem 0;
+            width: 100%;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .chatlog__message-group {
+            margin-bottom: 1rem;
+        }
+
+        .chatlog__message-container {
+            background-color: transparent;
+            transition: background-color 1s ease;
+        }
+
+        .chatlog__message-container--highlighted {
+            background-color: rgba(114, 137, 218, 0.2);
+        }
+
+        .chatlog__message-container--pinned {
+            background-color: rgba(249, 168, 37, 0.05);
+        }
+
+        .chatlog__message {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            padding: 0.15rem 0;
+            direction: ltr;
+            unicode-bidi: bidi-override;
+        }
+
+        .chatlog__message:hover {
+            background-color: #32353b;
+        }
+
+        .chatlog__message:hover .chatlog__short-timestamp {
+            display: block;
+        }
+
+        .chatlog__message-aside {
+            grid-column: 1;
+            width: 72px;
+            padding: 0.15rem 0.15rem 0 0.15rem;
+            text-align: center;
+        }
+
+        .chatlog__reference-symbol {
+            height: 10px;
+            margin: 6px 4px 4px 36px;
+            border-left: 2px solid #4f545c;
+            border-top: 2px solid #4f545c;
+            border-radius: 8px 0 0 0;
+        }
+
+        .chatlog__avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+        }
+
+        .chatlog__short-timestamp {
+            display: none;
+            color: #a3a6aa;
+            font-size: 0.75rem;
+            font-weight: 500;
+            direction: ltr;
+            unicode-bidi: bidi-override;
+        }
+
+        .chatlog__message-primary {
+            grid-column: 2;
+            min-width: 0;
+        }
+
+        .chatlog__reference {
+            display: flex;
+            margin-bottom: 0.15rem;
+            align-items: center;
+            color: #b5b6b8;
+            font-size: 0.875rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .chatlog__reference-avatar {
+            width: 16px;
+            height: 16px;
+            margin-right: 0.25rem;
+            border-radius: 50%;
+        }
+
+        .chatlog__reference-author {
+            margin-right: 0.3rem;
+            font-weight: 600;
+        }
+
+        .chatlog__reference-content {
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .chatlog__reference-link {
+            cursor: pointer;
+        }
+
+        .chatlog__reference-link * {
+            display: inline;
+            pointer-events: none;
+        }
+
+        .chatlog__reference-link .hljs {
+            display: inline;
+        }
+
+        .chatlog__reference-link:hover {
+            color: #ffffff;
+        }
+
+        .chatlog__reference-link:hover *:not(.chatlog__markdown-spoiler) {
+            color: inherit;
+        }
+
+        .chatlog__reference-edited-timestamp {
+            margin-left: 0.25rem;
+            color: #a3a6aa;
+            font-size: 0.75rem;
+            font-weight: 500;
+            direction: ltr;
+            unicode-bidi: bidi-override;
+        }
+
+        .chatlog__header {
+            margin-bottom: 0.1rem;
+        }
+
+        .chatlog__author {
+            font-weight: 500;
+            color: #ffffff;
+        }
+
+        .chatlog__bot-label {
+            position: relative;
+            top: -0.1rem;
+            margin-left: 0.3rem;
+            padding: 0.05rem 0.3rem;
+            border-radius: 3px;
+            background-color: #5865F2;
+            color: #ffffff;
+            font-size: 0.625rem;
+            font-weight: 500;
+            line-height: 1.3;
+        }
+
+        .chatlog__timestamp {
+            margin-left: 0.3rem;
+            color: #a3a6aa;
+            font-size: 0.75rem;
+            font-weight: 500;
+            direction: ltr;
+            unicode-bidi: bidi-override;
+        }
+
+        .chatlog__content {
+            padding-right: 1rem;
+            font-size: 0.95rem;
+            word-wrap: break-word;
+        }
+
+        .chatlog__edited-timestamp {
+            margin-left: 0.15rem;
+            color: #a3a6aa;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .chatlog__attachment {
+            position: relative;
+            width: fit-content;
+            margin-top: 0.3rem;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .chatlog__attachment--hidden {
+            cursor: pointer;
+            box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.1);
+        }
+
+        .chatlog__attachment--hidden * {
+            pointer-events: none;
+        }
+
+        .chatlog__attachment-spoiler-caption {
+            display: none;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            z-index: 999;
+            padding: 0.4rem 0.8rem;
+            border-radius: 20px;
+            transform: translate(-50%, -50%);
+            background-color: rgba(0, 0, 0, 0.9);
+            color: #dcddde;
+            font-size: 0.9rem;
+            font-weight: 600;
+            letter-spacing: 0.05rem;
+        }
+
+        .chatlog__attachment--hidden .chatlog__attachment-spoiler-caption {
+            display: block;
+        }
+
+        .chatlog__attachment--hidden:hover .chatlog__attachment-spoiler-caption {
+            color: #fff;
+        }
+
+        .chatlog__attachment-media {
+            max-width: 45vw;
+            max-height: 500px;
+            vertical-align: top;
+            border-radius: 3px;
+        }
+
+        .chatlog__attachment--hidden .chatlog__attachment-media {
+            filter: blur(44px);
+        }
+
+        .chatlog__attachment-generic {
+            max-width: 520px;
+            width: 100%;
+            height: 40px;
+            padding: 10px;
+            border: 1px solid #292b2f;
+            border-radius: 3px;
+            background-color: #2f3136;
+            overflow: hidden;
+        }
+
+        .chatlog__attachment--hidden .chatlog__attachment-generic {
+            filter: blur(44px);
+        }
+
+        .chatlog__attachment-generic-icon {
+            float: left;
+            width: 30px;
+            height: 100%;
+            margin-right: 10px;
+        }
+
+        .chatlog__attachment-generic-size {
+            color: #72767d;
+            font-size: 12px;
+        }
+
+        .chatlog__attachment-generic-name {
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+
+        .chatlog__embed {
+            display: flex;
+            margin-top: 0.3rem;
+            max-width: 520px;
+        }
+
+        .chatlog__embed-color-pill {
+            flex-shrink: 0;
+            width: 0.25rem;
+            border-top-left-radius: 3px;
+            border-bottom-left-radius: 3px;
+        }
+
+        .chatlog__embed-color-pill--default {
+            background-color: #202225;
+        }
+
+        .chatlog__embed-content-container {
+            display: flex;
+            flex-direction: column;
+            padding: 0.5rem 0.6rem;
+            border: 1px solid rgba(46, 48, 54, 0.6);
+            border-top-right-radius: 3px;
+            border-bottom-right-radius: 3px;
+            background-color: rgba(46, 48, 54, 0.3);
+        }
+
+        .chatlog__embed-content {
+            display: flex;
+            width: 100%;
+        }
+
+        .chatlog__embed-text {
+            flex: 1;
+        }
+
+        .chatlog__embed-author-container {
+            display: flex;
+            margin-bottom: 0.5rem;
+            align-items: center;
+        }
+
+        .chatlog__embed-author-icon {
+            width: 20px;
+            height: 20px;
+            margin-right: 0.5rem;
+            border-radius: 50%;
+        }
+
+        .chatlog__embed-author {
+            color: #ffffff;
+            font-size: 0.875rem;
+            font-weight: 600;
+            direction: ltr;
+            unicode-bidi: bidi-override;
+        }
+
+        .chatlog__embed-author-link {
+            color: #ffffff;
+        }
+
+        .chatlog__embed-title {
+            margin-bottom: 0.5rem;
+            color: #ffffff;
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+
+        .chatlog__embed-description {
+            color: #dcddde;
+            font-weight: 500;
+            font-size: 0.85rem;
+        }
+
+        .chatlog__embed-fields {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0 0.5rem;
+        }
+
+        .chatlog__embed-field {
+            flex: 0;
+            min-width: 100%;
+            max-width: 506px;
+            padding-top: 0.6rem;
+            font-size: 0.875rem;
+        }
+
+        .chatlog__embed-field--inline {
+            flex: 1;
+            flex-basis: auto;
+            min-width: 50px;
+        }
+
+        .chatlog__embed-field-name {
+            margin-bottom: 0.2rem;
+            color: #ffffff;
+            font-weight: 600;
+        }
+
+        .chatlog__embed-field-value {
+            color: #dcddde;
+            font-weight: 500;
+        }
+
+        .chatlog__embed-thumbnail {
+            flex: 0;
+            max-width: 80px;
+            max-height: 80px;
+            margin-left: 1.2rem;
+            border-radius: 3px;
+        }
+
+        .chatlog__embed-image-container {
+            margin-top: 0.6rem;
+        }
+
+        .chatlog__embed-image {
+            max-width: 500px;
+            max-height: 400px;
+            border-radius: 3px;
+        }
+
+        .chatlog__embed-footer {
+            margin-top: 0.6rem;
+            color: #dcddde;
+        }
+
+        .chatlog__embed-footer-icon {
+            width: 20px;
+            height: 20px;
+            margin-right: 0.2rem;
+            border-radius: 50%;
+            vertical-align: middle;
+        }
+
+        .chatlog__embed-footer-text {
+            vertical-align: middle;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .chatlog__embed-plainimage {
+            max-width: 45vw;
+            max-height: 500px;
+            vertical-align: top;
+            border-radius: 3px;
+        }
+
+        .chatlog__embed-spotify {
+            border: 0;
+        }
+
+        .chatlog__embed-youtube-container {
+            margin-top: 0.6rem;
+        }
+
+        .chatlog__embed-youtube {
+            border: 0;
+            border-radius: 3px;
+        }
+
+        .chatlog__sticker {
+            width: 180px;
+            height: 180px;
+        }
+
+        .chatlog__sticker--media {
+            max-width: 100%;
+            max-height: 100%;
+        }
+
+        .chatlog__reactions {
+            display: flex;
+        }
+
+        .chatlog__reaction {
+            display: flex;
+            margin: 0.35rem 0.1rem 0.1rem 0;
+            padding: 0.125rem 0.375rem;
+            border: 1px solid transparent;
+            border-radius: 8px;
+            background-color: #2f3136;
+            align-items: center;
+        }
+
+        .chatlog__reaction:hover {
+            border: 1px solid hsla(0,0%,100%,.2);
+            background-color: transparent;
+        }
+
+        .chatlog__reaction-count {
+            min-width: 9px;
+            margin-left: 0.35rem;
+            color: #b9bbbe;
+            font-size: 0.875rem;
+        }
+
+        .chatlog__reaction:hover .chatlog__reaction-count {
+            color: #dcddde;
+        }
+
+        .chatlog__markdown {
+            max-width: 100%;
+            line-height: 1.3;
+            overflow-wrap: break-word;
+        }
+
+        .chatlog__markdown-preserve {
+            white-space: pre-wrap;
+        }
+
+        .chatlog__markdown-spoiler {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+        }
+
+        .chatlog__markdown-spoiler--hidden {
+            cursor: pointer;
+            background-color: #202225;
+            color: rgba(0, 0, 0, 0);
+        }
+
+        .chatlog__markdown-spoiler--hidden:hover {
+            background-color: rgba(32, 34, 37, 0.8);
+        }
+
+        .chatlog__markdown-spoiler--hidden::selection {
+            color: rgba(0, 0, 0, 0);
+        }
+
+        .chatlog__markdown-quote {
+            display: flex;
+            margin: 0.05rem 0;
+        }
+
+        .chatlog__markdown-quote-border {
+            margin-right: 0.5rem;
+            border: 2px solid #4f545c;
+            border-radius: 3px;
+        }
+
+        .chatlog__markdown-pre {
+            background-color: #2f3136;
+            font-family: "Consolas", "Courier New", Courier, monospace;
+        }
+
+        .chatlog__markdown-pre--multiline {
+            margin-top: 0.25rem;
+            padding: 0.5rem;
+            border: 2px solid #282b30;
+            border-radius: 5px;
+            color: #b9bbbe;
+        }
+
+        .chatlog__markdown-pre--multiline.hljs {
+            background-color: inherit;
+            color: inherit;
+        }
+
+        .chatlog__markdown-pre--inline {
+            padding: 2px;
+            border-radius: 3px;
+            font-size: 0.85rem;
+        }
+
+        .chatlog__markdown-mention {
+            border-radius: 3px;
+            padding: 0 2px;
+            background-color: rgba(88, 101, 242, .3);
+            color: #dee0fc;
+            font-weight: 500;
+        }
+
+        .chatlog__markdown-mention:hover {
+            background-color: #5865f2;
+            color: #ffffff
+        }
+
+        .chatlog__markdown-timestamp {
+            border-radius: 3px;
+            padding: 0 2px;
+            color: #a3a6aa;
+        }
+
+        .chatlog__emoji {
+            width: 1.325rem;
+            height: 1.325rem;
+            margin: 0 0.06rem;
+            vertical-align: -0.4rem;
+        }
+
+        .chatlog__emoji--small {
+            width: 1rem;
+            height: 1rem;
+        }
+
+        .chatlog__emoji--large {
+            width: 2.8rem;
+            height: 2.8rem;
+        }
+
+        .postamble {
+            padding: 1.25rem;
+        }
+
+        .postamble__entry {
+            color: #ffffff;
+        }
+    </style>
+
+    <link rel="stylesheet" href="BepisDB%20-%20first%20circle%20-%20general%20%5B764811948462047246%5D%20%28after%202022-05-12%29.html_Files/solarized-dark.min-BA98F.css">
+    <script src="BepisDB%20-%20first%20circle%20-%20general%20%5B764811948462047246%5D%20%28after%202022-05-12%29.html_Files/highlight.min-D8D27.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.chatlog__markdown-pre--multiline').forEach(e => hljs.highlightBlock(e));
+        });
+    </script>
+
+    <script src="BepisDB%20-%20first%20circle%20-%20general%20%5B764811948462047246%5D%20%28after%202022-05-12%29.html_Files/lottie.min-99657.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.chatlog__sticker--media[data-source]').forEach(e => {
+                const imageDataUrl = e.getAttribute('data-source');
+
+                const anim = lottie.loadAnimation({
+                  container: e,
+                  renderer: 'svg',
+                  loop: true,
+                  autoplay: true,
+                  path: imageDataUrl
+                });
+
+                anim.addEventListener('data_failed', () =>
+                    e.innerHTML = '<strong>[Sticker cannot be rendered]</strong>'
+                );
+            });
+        });
+    </script>
+
+    <script>
+        function scrollToMessage(event, id) {
+            var element = document.getElementById('chatlog__message-container-' + id);
+            if (!element)
+                return;
+
+            event.preventDefault();
+            element.classList.add('chatlog__message-container--highlighted');
+
+            window.scrollTo({
+                top: element.getBoundingClientRect().top - document.body.getBoundingClientRect().top - (window.innerHeight / 2),
+                behavior: 'smooth'
+            });
+
+            window.setTimeout(function() {
+                element.classList.remove('chatlog__message-container--highlighted');
+            }, 2000);
+        }
+
+        function showSpoiler(event, element) {
+            if (!element)
+                return;
+
+            if (element.classList.contains('chatlog__attachment--hidden')) {
+                event.preventDefault();
+                element.classList.remove('chatlog__attachment--hidden');
+            }
+
+            if (element.classList.contains('chatlog__markdown-spoiler--hidden')) {
+                event.preventDefault();
+                element.classList.remove('chatlog__markdown-spoiler--hidden');
+            }
+        }
+    </script>
+
+    <svg style="display: none">
+        <symbol id="attachment-icon" viewBox="0 0 720 960">
+            <path fill="#f4f5fb" d="M50,935a25,25,0,0,1-25-25V50A25,25,0,0,1,50,25H519.6L695,201.32V910a25,25,0,0,1-25,25Z"/>
+            <path fill="#7789c4" d="M509.21,50,670,211.63V910H50V50H509.21M530,0H50A50,50,0,0,0,0,50V910a50,50,0,0,0,50,50H670a50,50,0,0,0,50-50h0V191Z"/>
+            <path fill="#f4f5fb" d="M530,215a25,25,0,0,1-25-25V50a25,25,0,0,1,16.23-23.41L693.41,198.77A25,25,0,0,1,670,215Z"/>
+            <path fill="#7789c4" d="M530,70.71,649.29,190H530V70.71M530,0a50,50,0,0,0-50,50V190a50,50,0,0,0,50,50H670a50,50,0,0,0,50-50Z"/>
+        </symbol>
+    </svg>
+</head>
+<body>
+
+<div class="preamble">
+    <div class="preamble__guild-icon-container">
+        <img class="preamble__guild-icon" src="BepisDB%20-%20first%20circle%20-%20general%20%5B764811948462047246%5D%20%28after%202022-05-12%29.html_Files/c7e0cf2a2db252f09aba61dad92eb9e1-1E54D.png" alt="Guild icon" loading="lazy">
+    </div>
+    <div class="preamble__entries-container">
+        <div class="preamble__entry">BepisDB</div>
+        <div class="preamble__entry">first circle / general</div>
+
+
+            <div class="preamble__entry preamble__entry--small">
+After 12-May-22 10:54 PM            </div>
+    </div>
+</div>
+
+<div class="chatlog">
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-974323920289296507" class="chatlog__message-container " data-message-id="974323920289296507">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                        <div class="chatlog__reference-symbol"></div>
+                    <img class="chatlog__avatar" src="BepisDB%20-%20first%20circle%20-%20general%20%5B764811948462047246%5D%20%28after%202022-05-12%29.html_Files/e4256c675d846fa8ea5e645db590aa0b-1C8CA.png" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                        <div class="chatlog__reference">
+                                <div class="chatlog__reference-unknown">
+                                    Original message was deleted or could not be loaded.
+                                </div>
+                        </div>
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="" title="jim60105&#129436;Taiwan#0753" data-user-id="477041929713090560">jim60105&#129436;Taiwan</span>
+
+
+                        <span class="chatlog__timestamp">12-May-22 10:55 PM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">Please show evidence.
+I ask you to retract this false accusation.
+I have not done any of these things and have no interest.
+Please don&#39;t spread false rumors.</span>
+
+                    </div>
+
+                    <div class="chatlog__attachment " onclick="">
+
+                            <a href="BepisDB%20-%20first%20circle%20-%20general%20%5B764811948462047246%5D%20%28after%202022-05-12%29.html_Files/2022-05-12_22_53_16-40738.png">
+                                <img class="chatlog__attachment-media" src="BepisDB%20-%20first%20circle%20-%20general%20%5B764811948462047246%5D%20%28after%202022-05-12%29.html_Files/2022-05-12_22_53_16-40738.png" alt="Image attachment" title="Image: 2022-05-12_22_53_16.png (28.64 KB)" loading="lazy">
+                            </a>
+                    </div>
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-974324087386169354" class="chatlog__message-container " data-message-id="974324087386169354">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="BepisDB%20-%20first%20circle%20-%20general%20%5B764811948462047246%5D%20%28after%202022-05-12%29.html_Files/bebfe9bc89e5d2433cacccdeda334113-741C8.png" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="color: rgb(231, 76, 60)" title="Bepis#5391" data-user-id="87058826594914304">Bepis</span>
+
+
+                        <span class="chatlog__timestamp">12-May-22 10:56 PM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">you are spreading false rumors about me on your site
+how about you retract those first</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-974324421923835994" class="chatlog__message-container " data-message-id="974324421923835994">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="BepisDB%20-%20first%20circle%20-%20general%20%5B764811948462047246%5D%20%28after%202022-05-12%29.html_Files/e4256c675d846fa8ea5e645db590aa0b-1C8CA.png" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="" title="jim60105&#129436;Taiwan#0753" data-user-id="477041929713090560">jim60105&#129436;Taiwan</span>
+
+
+                        <span class="chatlog__timestamp">12-May-22 10:57 PM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">this one?</span>
+
+                    </div>
+
+                    <div class="chatlog__attachment " onclick="">
+
+                            <a href="BepisDB%20-%20first%20circle%20-%20general%20%5B764811948462047246%5D%20%28after%202022-05-12%29.html_Files/unknown-C87A4.png">
+                                <img class="chatlog__attachment-media" src="BepisDB%20-%20first%20circle%20-%20general%20%5B764811948462047246%5D%20%28after%202022-05-12%29.html_Files/unknown-C87A4.png" alt="Image attachment" title="Image: unknown.png (47.62 KB)" loading="lazy">
+                            </a>
+                    </div>
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-974324501217148928" class="chatlog__message-container " data-message-id="974324501217148928">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="BepisDB%20-%20first%20circle%20-%20general%20%5B764811948462047246%5D%20%28after%202022-05-12%29.html_Files/bebfe9bc89e5d2433cacccdeda334113-741C8.png" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="color: rgb(231, 76, 60)" title="Bepis#5391" data-user-id="87058826594914304">Bepis</span>
+
+
+                        <span class="chatlog__timestamp">12-May-22 10:57 PM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">yeah
+explain to me why the context behind that picture is also not shown</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-974324838606966804" class="chatlog__message-container " data-message-id="974324838606966804">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="BepisDB%20-%20first%20circle%20-%20general%20%5B764811948462047246%5D%20%28after%202022-05-12%29.html_Files/e4256c675d846fa8ea5e645db590aa0b-1C8CA.png" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="" title="jim60105&#129436;Taiwan#0753" data-user-id="477041929713090560">jim60105&#129436;Taiwan</span>
+
+
+                        <span class="chatlog__timestamp">12-May-22 10:59 PM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve"><a href="https://jim60105.github.io/discord-dm-20210825/">https://jim60105.github.io/discord-dm-20210825/</a>
+I&#39;ve provided the full conversation right below this image.</span>
+
+                    </div>
+
+                    <div class="chatlog__attachment " onclick="">
+
+                            <a href="BepisDB%20-%20first%20circle%20-%20general%20%5B764811948462047246%5D%20%28after%202022-05-12%29.html_Files/unknown-40D34.png">
+                                <img class="chatlog__attachment-media" src="BepisDB%20-%20first%20circle%20-%20general%20%5B764811948462047246%5D%20%28after%202022-05-12%29.html_Files/unknown-40D34.png" alt="Image attachment" title="Image: unknown.png (88.39 KB)" loading="lazy">
+                            </a>
+                    </div>
+
+                        <div class="chatlog__embed">
+                                <div class="chatlog__embed-color-pill chatlog__embed-color-pill--default"></div>
+
+                            <div class="chatlog__embed-content-container">
+                                <div class="chatlog__embed-content">
+                                    <div class="chatlog__embed-text">
+
+                                            <div class="chatlog__embed-title">
+                                                    <a class="chatlog__embed-title-link" href="https://jim60105.github.io/discord-dm-20210825/">
+                                                        <div class="chatlog__markdown chatlog__markdown-preserve">BepisDB宣傳事件對話記錄</div>
+                                                    </a>
+                                            </div>
+
+
+                                    </div>
+
+                                </div>
+
+
+                            </div>
+                        </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-974324953082122280" class="chatlog__message-container " data-message-id="974324953082122280">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="BepisDB%20-%20first%20circle%20-%20general%20%5B764811948462047246%5D%20%28after%202022-05-12%29.html_Files/bebfe9bc89e5d2433cacccdeda334113-741C8.png" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="color: rgb(231, 76, 60)" title="Bepis#5391" data-user-id="87058826594914304">Bepis</span>
+
+
+                        <span class="chatlog__timestamp">12-May-22 10:59 PM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">no you didn&#39;t</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-974324982509363220" class="chatlog__message-container " data-message-id="974324982509363220">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                        <div class="chatlog__reference-symbol"></div>
+                    <img class="chatlog__avatar" src="BepisDB%20-%20first%20circle%20-%20general%20%5B764811948462047246%5D%20%28after%202022-05-12%29.html_Files/14bcb77bf00d88c393dd8d25bd19f399-E76AF.png" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                        <div class="chatlog__reference">
+                                <img class="chatlog__reference-avatar" src="BepisDB%20-%20first%20circle%20-%20general%20%5B764811948462047246%5D%20%28after%202022-05-12%29.html_Files/bebfe9bc89e5d2433cacccdeda334113-741C8.png" alt="Avatar" loading="lazy">
+                                <div class="chatlog__reference-author" style="color: rgb(231, 76, 60)" title="Bepis#5391">Bepis</div>
+                                <div class="chatlog__reference-content">
+                                    <span class="chatlog__reference-link" onclick="scrollToMessage(event, &#39;974324087386169354&#39;)">
+you are spreading false rumors about me on your site
+how about you retract those first                                    </span>
+
+                                </div>
+                        </div>
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="" title="アラストル Ant Y#5855" data-user-id="463031802672447488">アラストル Ant Y</span>
+
+
+                        <span class="chatlog__timestamp">12-May-22 10:59 PM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">so is that means you spreading false rumor for revenge?</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-974324999366275152" class="chatlog__message-container " data-message-id="974324999366275152">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="BepisDB%20-%20first%20circle%20-%20general%20%5B764811948462047246%5D%20%28after%202022-05-12%29.html_Files/bebfe9bc89e5d2433cacccdeda334113-741C8.png" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="color: rgb(231, 76, 60)" title="Bepis#5391" data-user-id="87058826594914304">Bepis</span>
+
+
+                        <span class="chatlog__timestamp">12-May-22 10:59 PM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">you&#39;re missing the part about how you asked me to personally verify all 500,000 cards on the site</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+    <div id="chatlog__message-container-974325042206867536" class="chatlog__message-container " data-message-id="974325042206867536">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <div class="chatlog__short-timestamp" title="12-May-22 10:59 PM">22:59</div>
+            </div>
+
+            <div class="chatlog__message-primary">
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">and if i couldn&#39;t, i should delete the website</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-974325175581556737" class="chatlog__message-container " data-message-id="974325175581556737">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                        <div class="chatlog__reference-symbol"></div>
+                    <img class="chatlog__avatar" src="BepisDB%20-%20first%20circle%20-%20general%20%5B764811948462047246%5D%20%28after%202022-05-12%29.html_Files/bebfe9bc89e5d2433cacccdeda334113-741C8.png" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                        <div class="chatlog__reference">
+                                <img class="chatlog__reference-avatar" src="BepisDB%20-%20first%20circle%20-%20general%20%5B764811948462047246%5D%20%28after%202022-05-12%29.html_Files/14bcb77bf00d88c393dd8d25bd19f399-E76AF.png" alt="Avatar" loading="lazy">
+                                <div class="chatlog__reference-author" style="" title="アラストル Ant Y#5855">アラストル Ant Y</div>
+                                <div class="chatlog__reference-content">
+                                    <span class="chatlog__reference-link" onclick="scrollToMessage(event, &#39;974324982509363220&#39;)">
+so is that means you spreading false rumor for revenge?                                    </span>
+
+                                </div>
+                        </div>
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="color: rgb(231, 76, 60)" title="Bepis#5391" data-user-id="87058826594914304">Bepis</span>
+
+
+                        <span class="chatlog__timestamp">12-May-22 11:00 PM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">i&#39;m only going off what i&#39;ve been told by another chinese user</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+    <div id="chatlog__message-container-974325289574334475" class="chatlog__message-container " data-message-id="974325289574334475">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <div class="chatlog__short-timestamp" title="12-May-22 11:00 PM">23:00</div>
+            </div>
+
+            <div class="chatlog__message-primary">
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">just that there are chinese users doing that, and it makes sense that jim is involved
+because even though he declares my site is full of criminals and thieves, he still links it everywhere he possibly can
+and allows it in his discord</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-974325346298126387" class="chatlog__message-container " data-message-id="974325346298126387">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="BepisDB%20-%20first%20circle%20-%20general%20%5B764811948462047246%5D%20%28after%202022-05-12%29.html_Files/14bcb77bf00d88c393dd8d25bd19f399-E76AF.png" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="" title="アラストル Ant Y#5855" data-user-id="463031802672447488">アラストル Ant Y</span>
+
+
+                        <span class="chatlog__timestamp">12-May-22 11:01 PM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">then give evidence
+or just told which chinese user told you that</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-974325478670336010" class="chatlog__message-container " data-message-id="974325478670336010">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="BepisDB%20-%20first%20circle%20-%20general%20%5B764811948462047246%5D%20%28after%202022-05-12%29.html_Files/bebfe9bc89e5d2433cacccdeda334113-741C8.png" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="color: rgb(231, 76, 60)" title="Bepis#5391" data-user-id="87058826594914304">Bepis</span>
+
+
+                        <span class="chatlog__timestamp">12-May-22 11:01 PM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">why would i throw him under the bus
+i&#39;d much rather just keep my claims unsubstantiated then try to backstab him. ignore my claims then</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-974325709810044948" class="chatlog__message-container " data-message-id="974325709810044948">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                        <div class="chatlog__reference-symbol"></div>
+                    <img class="chatlog__avatar" src="BepisDB%20-%20first%20circle%20-%20general%20%5B764811948462047246%5D%20%28after%202022-05-12%29.html_Files/e4256c675d846fa8ea5e645db590aa0b-1C8CA.png" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                        <div class="chatlog__reference">
+                                <img class="chatlog__reference-avatar" src="BepisDB%20-%20first%20circle%20-%20general%20%5B764811948462047246%5D%20%28after%202022-05-12%29.html_Files/bebfe9bc89e5d2433cacccdeda334113-741C8.png" alt="Avatar" loading="lazy">
+                                <div class="chatlog__reference-author" style="color: rgb(231, 76, 60)" title="Bepis#5391">Bepis</div>
+                                <div class="chatlog__reference-content">
+                                    <span class="chatlog__reference-link" onclick="scrollToMessage(event, &#39;974324999366275152&#39;)">
+you&#39;re missing the part about how you asked me to personally verify all 500,000 cards on the site                                    </span>
+
+                                </div>
+                        </div>
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="" title="jim60105&#129436;Taiwan#0753" data-user-id="477041929713090560">jim60105&#129436;Taiwan</span>
+
+
+                        <span class="chatlog__timestamp">12-May-22 11:02 PM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">no, all the conversation is in the link
+<a href="https://jim60105.github.io/discord-dm-20210825/">https://jim60105.github.io/discord-dm-20210825/</a>
+also about the Kaldeqca part.
+Please check it.</span>
+
+                    </div>
+
+
+                        <div class="chatlog__embed">
+                                <div class="chatlog__embed-color-pill chatlog__embed-color-pill--default"></div>
+
+                            <div class="chatlog__embed-content-container">
+                                <div class="chatlog__embed-content">
+                                    <div class="chatlog__embed-text">
+
+                                            <div class="chatlog__embed-title">
+                                                    <a class="chatlog__embed-title-link" href="https://jim60105.github.io/discord-dm-20210825/">
+                                                        <div class="chatlog__markdown chatlog__markdown-preserve">BepisDB宣傳事件對話記錄</div>
+                                                    </a>
+                                            </div>
+
+
+                                    </div>
+
+                                </div>
+
+
+                            </div>
+                        </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-974326034931548210" class="chatlog__message-container " data-message-id="974326034931548210">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="BepisDB%20-%20first%20circle%20-%20general%20%5B764811948462047246%5D%20%28after%202022-05-12%29.html_Files/bebfe9bc89e5d2433cacccdeda334113-741C8.png" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="color: rgb(231, 76, 60)" title="Bepis#5391" data-user-id="87058826594914304">Bepis</span>
+
+
+                        <span class="chatlog__timestamp">12-May-22 11:03 PM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">well i take it back, my previous conversation is in there</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+    <div id="chatlog__message-container-974326101579038841" class="chatlog__message-container " data-message-id="974326101579038841">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <div class="chatlog__short-timestamp" title="12-May-22 11:04 PM">23:04</div>
+            </div>
+
+            <div class="chatlog__message-primary">
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">can&#39;t believe i was only getting 400k visits a day back then</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-974326159342981140" class="chatlog__message-container " data-message-id="974326159342981140">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="BepisDB%20-%20first%20circle%20-%20general%20%5B764811948462047246%5D%20%28after%202022-05-12%29.html_Files/14bcb77bf00d88c393dd8d25bd19f399-E76AF.png" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="" title="アラストル Ant Y#5855" data-user-id="463031802672447488">アラストル Ant Y</span>
+
+
+                        <span class="chatlog__timestamp">12-May-22 11:04 PM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">Its redicous.
+You just spreading rumor for your personal revenge.
+You can&#39;t give evidence even who told you about that.</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-974326271855169556" class="chatlog__message-container " data-message-id="974326271855169556">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                        <div class="chatlog__reference-symbol"></div>
+                    <img class="chatlog__avatar" src="BepisDB%20-%20first%20circle%20-%20general%20%5B764811948462047246%5D%20%28after%202022-05-12%29.html_Files/e4256c675d846fa8ea5e645db590aa0b-1C8CA.png" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                        <div class="chatlog__reference">
+                                <img class="chatlog__reference-avatar" src="BepisDB%20-%20first%20circle%20-%20general%20%5B764811948462047246%5D%20%28after%202022-05-12%29.html_Files/bebfe9bc89e5d2433cacccdeda334113-741C8.png" alt="Avatar" loading="lazy">
+                                <div class="chatlog__reference-author" style="color: rgb(231, 76, 60)" title="Bepis#5391">Bepis</div>
+                                <div class="chatlog__reference-content">
+                                    <span class="chatlog__reference-link" onclick="scrollToMessage(event, &#39;974325289574334475&#39;)">
+just that there are chinese users doing that, and it makes sense that jim is involved
+because even though he declares my site is full of criminals and thieves, he still links it everywhere he possibly can
+and allows it in his discord                                    </span>
+
+                                </div>
+                        </div>
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="" title="jim60105&#129436;Taiwan#0753" data-user-id="477041929713090560">jim60105&#129436;Taiwan</span>
+
+
+                        <span class="chatlog__timestamp">12-May-22 11:04 PM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">Because in my discord, I give people a certain amount of freedom of speech.
+I&#39;m personally against your db, but I&#39;m not going to restrict other users from using it.</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-974326426201391185" class="chatlog__message-container " data-message-id="974326426201391185">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="BepisDB%20-%20first%20circle%20-%20general%20%5B764811948462047246%5D%20%28after%202022-05-12%29.html_Files/bebfe9bc89e5d2433cacccdeda334113-741C8.png" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="color: rgb(231, 76, 60)" title="Bepis#5391" data-user-id="87058826594914304">Bepis</span>
+
+
+                        <span class="chatlog__timestamp">12-May-22 11:05 PM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">so why are you okay with kenzato and illusion booru when they have the same if not less author control</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+    <div id="chatlog__message-container-974326515883982938" class="chatlog__message-container " data-message-id="974326515883982938">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <div class="chatlog__short-timestamp" title="12-May-22 11:05 PM">23:05</div>
+            </div>
+
+            <div class="chatlog__message-primary">
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">i have complied with roughly 1000 card takedown requests</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+    <div id="chatlog__message-container-974326537186836490" class="chatlog__message-container " data-message-id="974326537186836490">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <div class="chatlog__short-timestamp" title="12-May-22 11:05 PM">23:05</div>
+            </div>
+
+            <div class="chatlog__message-primary">
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">kenzato complies with 1</span>
+
+                            <span class="chatlog__edited-timestamp" title="12-May-22 11:07 PM">(edited)</span>
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+    <div id="chatlog__message-container-974326559739625492" class="chatlog__message-container " data-message-id="974326559739625492">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <div class="chatlog__short-timestamp" title="12-May-22 11:05 PM">23:05</div>
+            </div>
+
+            <div class="chatlog__message-primary">
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">illusion booru complies with 0</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-974326809300717588" class="chatlog__message-container " data-message-id="974326809300717588">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                        <div class="chatlog__reference-symbol"></div>
+                    <img class="chatlog__avatar" src="BepisDB%20-%20first%20circle%20-%20general%20%5B764811948462047246%5D%20%28after%202022-05-12%29.html_Files/db82e7b2fb17f9aff2312ea9625d95ff-F3395.png" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                        <div class="chatlog__reference">
+                                <img class="chatlog__reference-avatar" src="BepisDB%20-%20first%20circle%20-%20general%20%5B764811948462047246%5D%20%28after%202022-05-12%29.html_Files/bebfe9bc89e5d2433cacccdeda334113-741C8.png" alt="Avatar" loading="lazy">
+                                <div class="chatlog__reference-author" style="color: rgb(231, 76, 60)" title="Bepis#5391">Bepis</div>
+                                <div class="chatlog__reference-content">
+                                    <span class="chatlog__reference-link" onclick="scrollToMessage(event, &#39;974326537186836490&#39;)">
+kenzato complies with 1                                    </span>
+
+                                        <span class="chatlog__reference-edited-timestamp" title="12-May-22 11:07 PM">(edited)</span>
+                                </div>
+                        </div>
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="color: rgb(46, 204, 113)" title="Night Wing Zero#3539" data-user-id="271815705945571328">Night Wing Zero</span>
+
+
+                        <span class="chatlog__timestamp">12-May-22 11:06 PM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">actually they did once with me but because i was insisting them to the point they said fine</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-974326809330073610" class="chatlog__message-container " data-message-id="974326809330073610">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                        <div class="chatlog__reference-symbol"></div>
+                    <img class="chatlog__avatar" src="BepisDB%20-%20first%20circle%20-%20general%20%5B764811948462047246%5D%20%28after%202022-05-12%29.html_Files/e4256c675d846fa8ea5e645db590aa0b-1C8CA.png" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                        <div class="chatlog__reference">
+                                <img class="chatlog__reference-avatar" src="BepisDB%20-%20first%20circle%20-%20general%20%5B764811948462047246%5D%20%28after%202022-05-12%29.html_Files/bebfe9bc89e5d2433cacccdeda334113-741C8.png" alt="Avatar" loading="lazy">
+                                <div class="chatlog__reference-author" style="color: rgb(231, 76, 60)" title="Bepis#5391">Bepis</div>
+                                <div class="chatlog__reference-content">
+                                    <span class="chatlog__reference-link" onclick="scrollToMessage(event, &#39;974326426201391185&#39;)">
+so why are you okay with kenzato and illusion booru when they have the same if not less author control                                    </span>
+
+                                </div>
+                        </div>
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="" title="jim60105&#129436;Taiwan#0753" data-user-id="477041929713090560">jim60105&#129436;Taiwan</span>
+
+
+                        <span class="chatlog__timestamp">12-May-22 11:06 PM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">No, I also don&#39;t think they&#39;re OK
+But they didn&#39;t ask me to advertise for them in my discord, unlike you.
+What I dismissed was the matter of &quot;announcement&quot;, not your db.</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-974327153565003826" class="chatlog__message-container " data-message-id="974327153565003826">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="BepisDB%20-%20first%20circle%20-%20general%20%5B764811948462047246%5D%20%28after%202022-05-12%29.html_Files/bebfe9bc89e5d2433cacccdeda334113-741C8.png" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="color: rgb(231, 76, 60)" title="Bepis#5391" data-user-id="87058826594914304">Bepis</span>
+
+
+                        <span class="chatlog__timestamp">12-May-22 11:08 PM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">you do not wish for any card sharing platform to exist</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+    <div id="chatlog__message-container-974327295626059796" class="chatlog__message-container " data-message-id="974327295626059796">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <div class="chatlog__short-timestamp" title="12-May-22 11:08 PM">23:08</div>
+            </div>
+
+            <div class="chatlog__message-primary">
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">because it&#39;s extremely easy for me to upload leaked cards onto pixiv. they will also comply with takedown requests much less frequently than i do</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+    <div id="chatlog__message-container-974327463159148574" class="chatlog__message-container " data-message-id="974327463159148574">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <div class="chatlog__short-timestamp" title="12-May-22 11:09 PM">23:09</div>
+            </div>
+
+            <div class="chatlog__message-primary">
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">i asked for a bit of help with an announcement, and you respond by badmouthing me as much as possible</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-974327548588732436" class="chatlog__message-container " data-message-id="974327548588732436">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="BepisDB%20-%20first%20circle%20-%20general%20%5B764811948462047246%5D%20%28after%202022-05-12%29.html_Files/89ac85073a0ebceeaddaeafd0f776a1b-B184F.png" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="" title="Darwin_P#7103" data-user-id="702076492733218877">Darwin_P</span>
+
+
+                        <span class="chatlog__timestamp">12-May-22 11:09 PM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">Wow many big names here today.  We&#39;re missing the point here, The question is:
+What evidence, let you <span class="chatlog__markdown-mention" title="Bepis#5391">@Bepis</span>  think Jim the Admin of Chinese KK Discord join the card business, he simply lost interest in KK back then.</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-974327550392283136" class="chatlog__message-container " data-message-id="974327550392283136">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="BepisDB%20-%20first%20circle%20-%20general%20%5B764811948462047246%5D%20%28after%202022-05-12%29.html_Files/bebfe9bc89e5d2433cacccdeda334113-741C8.png" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="color: rgb(231, 76, 60)" title="Bepis#5391" data-user-id="87058826594914304">Bepis</span>
+
+
+                        <span class="chatlog__timestamp">12-May-22 11:09 PM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">so whatever you want help with now, what makes you think i&#39;ll give you any other courtesy</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-974327803170394232" class="chatlog__message-container " data-message-id="974327803170394232">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="BepisDB%20-%20first%20circle%20-%20general%20%5B764811948462047246%5D%20%28after%202022-05-12%29.html_Files/89ac85073a0ebceeaddaeafd0f776a1b-B184F.png" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="" title="Darwin_P#7103" data-user-id="702076492733218877">Darwin_P</span>
+
+
+                        <span class="chatlog__timestamp">12-May-22 11:10 PM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">Join or not cooperate with DB is a non issue, you&#39;ll operate the site anyway.</span>
+
+                            <span class="chatlog__edited-timestamp" title="12-May-22 11:10 PM">(edited)</span>
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-974327840436797450" class="chatlog__message-container " data-message-id="974327840436797450">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="BepisDB%20-%20first%20circle%20-%20general%20%5B764811948462047246%5D%20%28after%202022-05-12%29.html_Files/bebfe9bc89e5d2433cacccdeda334113-741C8.png" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="color: rgb(231, 76, 60)" title="Bepis#5391" data-user-id="87058826594914304">Bepis</span>
+
+
+                        <span class="chatlog__timestamp">12-May-22 11:10 PM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">i&#39;ll delete the claim above if it&#39;s that much of an issue</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-974327843674783784" class="chatlog__message-container " data-message-id="974327843674783784">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="BepisDB%20-%20first%20circle%20-%20general%20%5B764811948462047246%5D%20%28after%202022-05-12%29.html_Files/e4256c675d846fa8ea5e645db590aa0b-1C8CA.png" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="" title="jim60105&#129436;Taiwan#0753" data-user-id="477041929713090560">jim60105&#129436;Taiwan</span>
+
+
+                        <span class="chatlog__timestamp">12-May-22 11:11 PM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">I&#39;m not arrogant enough to think I can sanction you, but I don&#39;t want to get involved in supporting your actions.
+I don&#39;t want to be hostile to the creator.</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-974327949723578368" class="chatlog__message-container " data-message-id="974327949723578368">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="BepisDB%20-%20first%20circle%20-%20general%20%5B764811948462047246%5D%20%28after%202022-05-12%29.html_Files/bebfe9bc89e5d2433cacccdeda334113-741C8.png" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="color: rgb(231, 76, 60)" title="Bepis#5391" data-user-id="87058826594914304">Bepis</span>
+
+
+                        <span class="chatlog__timestamp">12-May-22 11:11 PM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">explain to me how you&#39;ve been anything but hostile</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+    <div id="chatlog__message-container-974328550847029339" class="chatlog__message-container " data-message-id="974328550847029339">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <div class="chatlog__short-timestamp" title="12-May-22 11:13 PM">23:13</div>
+            </div>
+
+            <div class="chatlog__message-primary">
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">your entire issue with the site is that you say that bepisdb &quot;stealing&quot; download counts which is killing card creator motivation
+i offer to help create a system to make it easy for pixiv / whatever creators to flag cards that are theirs, so they can be moved to their accounts / credited / deleted, which solves your issue
+you, in return, tell me to go fuck myself</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+    <div id="chatlog__message-container-974328673463332875" class="chatlog__message-container " data-message-id="974328673463332875">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <div class="chatlog__short-timestamp" title="12-May-22 11:14 PM">23:14</div>
+            </div>
+
+            <div class="chatlog__message-primary">
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">you and your community are the only people who have had an issue with the way i run things</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+    <div id="chatlog__message-container-974328816988217454" class="chatlog__message-container " data-message-id="974328816988217454">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <div class="chatlog__short-timestamp" title="12-May-22 11:14 PM">23:14</div>
+            </div>
+
+            <div class="chatlog__message-primary">
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">i can count 20 creators in this discord who are perfectly fine withthe way things are, because they know that i can&#39;t implement a better system yet i still give them the time of day to fulfil their requests when i could easily turn them away</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-974329658638229575" class="chatlog__message-container " data-message-id="974329658638229575">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="BepisDB%20-%20first%20circle%20-%20general%20%5B764811948462047246%5D%20%28after%202022-05-12%29.html_Files/d3bbac29dcb4a30652171ed878ab70b6-190E7.png" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="" title="Jhon3D#3923" data-user-id="224836181278457857">Jhon3D</span>
+
+
+                        <span class="chatlog__timestamp">12-May-22 11:18 PM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">Damn</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-974329666213146674" class="chatlog__message-container " data-message-id="974329666213146674">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="BepisDB%20-%20first%20circle%20-%20general%20%5B764811948462047246%5D%20%28after%202022-05-12%29.html_Files/e4256c675d846fa8ea5e645db590aa0b-1C8CA.png" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="" title="jim60105&#129436;Taiwan#0753" data-user-id="477041929713090560">jim60105&#129436;Taiwan</span>
+
+
+                        <span class="chatlog__timestamp">12-May-22 11:18 PM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">I want to declare.
+I was responding on behalf of the management group, which was the result of a majority vote of the management group.
+I actually don&#39;t care about posting announcements in my discord, but the majority of admins voted against it.
+I personally don&#39;t want to be a part of your gossip at all.
+I didn&#39;t make any personal attacks, like &quot;go fuck yourself&quot;.
+I don&#39;t like your db, but I personally have no opinion on <span class="chatlog__markdown-mention" title="Bepis#5391">@Bepis</span> .</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-974329970883178596" class="chatlog__message-container " data-message-id="974329970883178596">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="BepisDB%20-%20first%20circle%20-%20general%20%5B764811948462047246%5D%20%28after%202022-05-12%29.html_Files/bebfe9bc89e5d2433cacccdeda334113-741C8.png" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="color: rgb(231, 76, 60)" title="Bepis#5391" data-user-id="87058826594914304">Bepis</span>
+
+
+                        <span class="chatlog__timestamp">12-May-22 11:19 PM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">no you do have an opinion and you do want to be part of the gossip
+you literally posted on your blog &quot;click here to view more gossip&quot;
+unless that translates into something else?</span>
+
+                    </div>
+
+                    <div class="chatlog__attachment " onclick="">
+
+                            <a href="BepisDB%20-%20first%20circle%20-%20general%20%5B764811948462047246%5D%20%28after%202022-05-12%29.html_Files/unknown-FE5CD.png">
+                                <img class="chatlog__attachment-media" src="BepisDB%20-%20first%20circle%20-%20general%20%5B764811948462047246%5D%20%28after%202022-05-12%29.html_Files/unknown-FE5CD.png" alt="Image attachment" title="Image: unknown.png (155.29 KB)" loading="lazy">
+                            </a>
+                    </div>
+
+
+
+            </div>
+        </div>
+    </div>
+    <div id="chatlog__message-container-974330085534498897" class="chatlog__message-container " data-message-id="974330085534498897">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <div class="chatlog__short-timestamp" title="12-May-22 11:19 PM">23:19</div>
+            </div>
+
+            <div class="chatlog__message-primary">
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">this is your personal blog
+if you wanted to be out of the drama, you wouldn&#39;t have posted the site nor anything at all</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-974330337733804032" class="chatlog__message-container " data-message-id="974330337733804032">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="BepisDB%20-%20first%20circle%20-%20general%20%5B764811948462047246%5D%20%28after%202022-05-12%29.html_Files/aeb28300d57bd13b1f97bdc5a61027fa-822B3.png" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="" title="Pleased Chomusuke#3800" data-user-id="163635608734924801">Pleased Chomusuke</span>
+
+
+                        <span class="chatlog__timestamp">12-May-22 11:20 PM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">damn</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-974330364686381146" class="chatlog__message-container " data-message-id="974330364686381146">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                        <div class="chatlog__reference-symbol"></div>
+                    <img class="chatlog__avatar" src="BepisDB%20-%20first%20circle%20-%20general%20%5B764811948462047246%5D%20%28after%202022-05-12%29.html_Files/e4256c675d846fa8ea5e645db590aa0b-1C8CA.png" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                        <div class="chatlog__reference">
+                                <img class="chatlog__reference-avatar" src="BepisDB%20-%20first%20circle%20-%20general%20%5B764811948462047246%5D%20%28after%202022-05-12%29.html_Files/bebfe9bc89e5d2433cacccdeda334113-741C8.png" alt="Avatar" loading="lazy">
+                                <div class="chatlog__reference-author" style="color: rgb(231, 76, 60)" title="Bepis#5391">Bepis</div>
+                                <div class="chatlog__reference-content">
+                                    <span class="chatlog__reference-link" onclick="scrollToMessage(event, &#39;974330085534498897&#39;)">
+this is your personal blog
+if you wanted to be out of the drama, you wouldn&#39;t have posted the site nor anything at all                                    </span>
+
+                                </div>
+                        </div>
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="" title="jim60105&#129436;Taiwan#0753" data-user-id="477041929713090560">jim60105&#129436;Taiwan</span>
+
+
+                        <span class="chatlog__timestamp">12-May-22 11:21 PM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">I&#39;m just showing the facts. 
+You can see I use git techniques to make sure those are real.</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-974330381111287838" class="chatlog__message-container " data-message-id="974330381111287838">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="BepisDB%20-%20first%20circle%20-%20general%20%5B764811948462047246%5D%20%28after%202022-05-12%29.html_Files/aeb28300d57bd13b1f97bdc5a61027fa-822B3.png" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="" title="Pleased Chomusuke#3800" data-user-id="163635608734924801">Pleased Chomusuke</span>
+
+
+                        <span class="chatlog__timestamp">12-May-22 11:21 PM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">bepis can&#39;t catch a break with these people</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-974330566306566244" class="chatlog__message-container " data-message-id="974330566306566244">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="BepisDB%20-%20first%20circle%20-%20general%20%5B764811948462047246%5D%20%28after%202022-05-12%29.html_Files/ddc010072ef9cf6dc6ec312b5a8ccf2d-65BFC.png" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="" title="4BEraser#6071" data-user-id="492324832625688580">4BEraser</span>
+
+
+                        <span class="chatlog__timestamp">12-May-22 11:21 PM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve"><img loading="lazy" class="chatlog__emoji chatlog__emoji--large" alt="😔" title="pensive" src="https://twemoji.maxcdn.com/2/svg/1f614.svg"></span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-974330622858375279" class="chatlog__message-container " data-message-id="974330622858375279">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="BepisDB%20-%20first%20circle%20-%20general%20%5B764811948462047246%5D%20%28after%202022-05-12%29.html_Files/e4256c675d846fa8ea5e645db590aa0b-1C8CA.png" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="" title="jim60105&#129436;Taiwan#0753" data-user-id="477041929713090560">jim60105&#129436;Taiwan</span>
+
+
+                        <span class="chatlog__timestamp">12-May-22 11:22 PM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">back to topic
+I ask you to retract this false accusation.
+I have not done any of these things and have no interest.
+Please don&#39;t spread false rumors.</span>
+
+                    </div>
+
+                    <div class="chatlog__attachment " onclick="">
+
+                            <a href="BepisDB%20-%20first%20circle%20-%20general%20%5B764811948462047246%5D%20%28after%202022-05-12%29.html_Files/2022-05-12_22_53_16-101F0.png">
+                                <img class="chatlog__attachment-media" src="BepisDB%20-%20first%20circle%20-%20general%20%5B764811948462047246%5D%20%28after%202022-05-12%29.html_Files/2022-05-12_22_53_16-101F0.png" alt="Image attachment" title="Image: 2022-05-12_22_53_16.png (28.64 KB)" loading="lazy">
+                            </a>
+                    </div>
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-974330624137654392" class="chatlog__message-container " data-message-id="974330624137654392">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                        <div class="chatlog__reference-symbol"></div>
+                    <img class="chatlog__avatar" src="BepisDB%20-%20first%20circle%20-%20general%20%5B764811948462047246%5D%20%28after%202022-05-12%29.html_Files/14bcb77bf00d88c393dd8d25bd19f399-E76AF.png" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                        <div class="chatlog__reference">
+                                <img class="chatlog__reference-avatar" src="BepisDB%20-%20first%20circle%20-%20general%20%5B764811948462047246%5D%20%28after%202022-05-12%29.html_Files/bebfe9bc89e5d2433cacccdeda334113-741C8.png" alt="Avatar" loading="lazy">
+                                <div class="chatlog__reference-author" style="color: rgb(231, 76, 60)" title="Bepis#5391">Bepis</div>
+                                <div class="chatlog__reference-content">
+                                    <span class="chatlog__reference-link" onclick="scrollToMessage(event, &#39;974328550847029339&#39;)">
+your entire issue with the site is that you say that bepisdb &quot;stealing&quot; download counts which is killing card creator motivation
+i offer to help create a system to make it easy for pixiv / whatever creators to flag cards that are theirs, so they can be moved to their accounts / credited / deleted, which solves your issue
+you, in return, tell me to go fuck myself                                    </span>
+
+                                </div>
+                        </div>
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="" title="アラストル Ant Y#5855" data-user-id="463031802672447488">アラストル Ant Y</span>
+
+
+                        <span class="chatlog__timestamp">12-May-22 11:22 PM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">yep its true. As I remember I show you example when you went to chinese discord for advertising.
+
+no matter how you explained. many cards that distributed on pixiv were being uploaded without author&#39;s approval.
+
+20 creators in this discord agree is fine, ask them for card then. 
+
+And we&#39;re here to deal with defaming jim.
+How you treat what you did is your problem. We will continue to tell authors who don&#39;t want their cards to be re-uploaded that your cards have been stolen.</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-974330847194906694" class="chatlog__message-container " data-message-id="974330847194906694">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="BepisDB%20-%20first%20circle%20-%20general%20%5B764811948462047246%5D%20%28after%202022-05-12%29.html_Files/bebfe9bc89e5d2433cacccdeda334113-741C8.png" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="color: rgb(231, 76, 60)" title="Bepis#5391" data-user-id="87058826594914304">Bepis</span>
+
+
+                        <span class="chatlog__timestamp">12-May-22 11:22 PM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">dude i haven&#39;t forgotten you were caught the other day sockpuppetting here</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+    <div id="chatlog__message-container-974331019463381012" class="chatlog__message-container " data-message-id="974331019463381012">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <div class="chatlog__short-timestamp" title="12-May-22 11:23 PM">23:23</div>
+            </div>
+
+            <div class="chatlog__message-primary">
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">and as i have mentioned in that conversation</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+    <div id="chatlog__message-container-974331126292316180" class="chatlog__message-container " data-message-id="974331126292316180">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <div class="chatlog__short-timestamp" title="12-May-22 11:24 PM">23:24</div>
+            </div>
+
+            <div class="chatlog__message-primary">
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">the way the site is moderated will stay exactly the same. for the last 2 years, and for the next 20</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+    <div id="chatlog__message-container-974331165546786846" class="chatlog__message-container " data-message-id="974331165546786846">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <div class="chatlog__short-timestamp" title="12-May-22 11:24 PM">23:24</div>
+            </div>
+
+            <div class="chatlog__message-primary">
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">i literally <em>cannot</em> do it any other way</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-974331356211458068" class="chatlog__message-container " data-message-id="974331356211458068">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="BepisDB%20-%20first%20circle%20-%20general%20%5B764811948462047246%5D%20%28after%202022-05-12%29.html_Files/14bcb77bf00d88c393dd8d25bd19f399-E76AF.png" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="" title="アラストル Ant Y#5855" data-user-id="463031802672447488">アラストル Ant Y</span>
+
+
+                        <span class="chatlog__timestamp">12-May-22 11:24 PM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">its the way you run your site and shouldn&#39;t affect the topic about you defaming jim for collecting free card to sell.</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-974331568820744212" class="chatlog__message-container " data-message-id="974331568820744212">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="BepisDB%20-%20first%20circle%20-%20general%20%5B764811948462047246%5D%20%28after%202022-05-12%29.html_Files/6b1b36a6358b409410cd25022829e8e1-8A90D.png" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="" title="USER-WorkShop-vm#3145" data-user-id="831569034729357322">USER-WorkShop-vm</span>
+
+
+                        <span class="chatlog__timestamp">12-May-22 11:25 PM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve"><img loading="lazy" class="chatlog__emoji chatlog__emoji--large" alt="👀" title="eyes" src="https://twemoji.maxcdn.com/2/svg/1f440.svg"></span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-974331645710704640" class="chatlog__message-container " data-message-id="974331645710704640">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="BepisDB%20-%20first%20circle%20-%20general%20%5B764811948462047246%5D%20%28after%202022-05-12%29.html_Files/bebfe9bc89e5d2433cacccdeda334113-741C8.png" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="color: rgb(231, 76, 60)" title="Bepis#5391" data-user-id="87058826594914304">Bepis</span>
+
+
+                        <span class="chatlog__timestamp">12-May-22 11:26 PM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve"><span class="chatlog__markdown-mention" title="アラストル Ant Y#5855">@アラストル Ant Y</span> well explain to me how you&#39;re involved then
+because its a funny coincidence that you show up at the exact same time jim does</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-974331689075626024" class="chatlog__message-container " data-message-id="974331689075626024">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                        <div class="chatlog__reference-symbol"></div>
+                    <img class="chatlog__avatar" src="BepisDB%20-%20first%20circle%20-%20general%20%5B764811948462047246%5D%20%28after%202022-05-12%29.html_Files/aeb28300d57bd13b1f97bdc5a61027fa-822B3.png" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                        <div class="chatlog__reference">
+                                <img class="chatlog__reference-avatar" src="BepisDB%20-%20first%20circle%20-%20general%20%5B764811948462047246%5D%20%28after%202022-05-12%29.html_Files/e4256c675d846fa8ea5e645db590aa0b-1C8CA.png" alt="Avatar" loading="lazy">
+                                <div class="chatlog__reference-author" style="" title="jim60105&#129436;Taiwan#0753">jim60105&#129436;Taiwan</div>
+                                <div class="chatlog__reference-content">
+                                    <span class="chatlog__reference-link" onclick="scrollToMessage(event, &#39;974330622858375279&#39;)">
+back to topic
+I ask you to retract this false accusation.
+I have not done any of these things and have no interest.
+Please don&#39;t spread false rumors.                                    </span>
+
+                                </div>
+                        </div>
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="" title="Pleased Chomusuke#3800" data-user-id="163635608734924801">Pleased Chomusuke</span>
+
+
+                        <span class="chatlog__timestamp">12-May-22 11:26 PM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">What I don&#39;t get is why you want him to retract it?
+it&#39;s not like he&#39;s accusing you of doing it,or anyone else for that matter is being name dropped</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-974331826489401436" class="chatlog__message-container " data-message-id="974331826489401436">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="BepisDB%20-%20first%20circle%20-%20general%20%5B764811948462047246%5D%20%28after%202022-05-12%29.html_Files/ddc010072ef9cf6dc6ec312b5a8ccf2d-65BFC.png" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="" title="4BEraser#6071" data-user-id="492324832625688580">4BEraser</span>
+
+
+                        <span class="chatlog__timestamp">12-May-22 11:26 PM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">not gonna comment on that. I don&#39;t know which Jim you point out at first, but this Jim do help me out when I was still a KK card maker, I don&#39;t believe that he will reselling other one&#39;s content since there were paywalled author in CN discord.</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-974331911864463370" class="chatlog__message-container " data-message-id="974331911864463370">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="BepisDB%20-%20first%20circle%20-%20general%20%5B764811948462047246%5D%20%28after%202022-05-12%29.html_Files/89ac85073a0ebceeaddaeafd0f776a1b-B184F.png" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="" title="Darwin_P#7103" data-user-id="702076492733218877">Darwin_P</span>
+
+
+                        <span class="chatlog__timestamp">12-May-22 11:27 PM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">I applaud to BepisDB willing to listen to some creator&#39;s request for returning cards to its righteous owner.
+But false accusation can&#39;t be tolerated.</span>
+
+                            <span class="chatlog__edited-timestamp" title="12-May-22 11:27 PM">(edited)</span>
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-974332069587091547" class="chatlog__message-container " data-message-id="974332069587091547">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                        <div class="chatlog__reference-symbol"></div>
+                    <img class="chatlog__avatar" src="BepisDB%20-%20first%20circle%20-%20general%20%5B764811948462047246%5D%20%28after%202022-05-12%29.html_Files/6b1b36a6358b409410cd25022829e8e1-8A90D.png" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                        <div class="chatlog__reference">
+                                <img class="chatlog__reference-avatar" src="BepisDB%20-%20first%20circle%20-%20general%20%5B764811948462047246%5D%20%28after%202022-05-12%29.html_Files/89ac85073a0ebceeaddaeafd0f776a1b-B184F.png" alt="Avatar" loading="lazy">
+                                <div class="chatlog__reference-author" style="" title="Darwin_P#7103">Darwin_P</div>
+                                <div class="chatlog__reference-content">
+                                    <span class="chatlog__reference-link" onclick="scrollToMessage(event, &#39;974331911864463370&#39;)">
+I applaud to BepisDB willing to listen to some creator&#39;s request for returning cards to its righteous owner.
+But false accusation can&#39;t be tolerated.                                    </span>
+
+                                        <span class="chatlog__reference-edited-timestamp" title="12-May-22 11:27 PM">(edited)</span>
+                                </div>
+                        </div>
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="" title="USER-WorkShop-vm#3145" data-user-id="831569034729357322">USER-WorkShop-vm</span>
+
+
+                        <span class="chatlog__timestamp">12-May-22 11:27 PM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve"><img loading="lazy" class="chatlog__emoji chatlog__emoji--large" alt="👍" title="thumbsup" src="https://twemoji.maxcdn.com/2/svg/1f44d.svg"></span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-974332160519581776" class="chatlog__message-container " data-message-id="974332160519581776">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                        <div class="chatlog__reference-symbol"></div>
+                    <img class="chatlog__avatar" src="BepisDB%20-%20first%20circle%20-%20general%20%5B764811948462047246%5D%20%28after%202022-05-12%29.html_Files/ddc010072ef9cf6dc6ec312b5a8ccf2d-65BFC.png" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                        <div class="chatlog__reference">
+                                <img class="chatlog__reference-avatar" src="BepisDB%20-%20first%20circle%20-%20general%20%5B764811948462047246%5D%20%28after%202022-05-12%29.html_Files/89ac85073a0ebceeaddaeafd0f776a1b-B184F.png" alt="Avatar" loading="lazy">
+                                <div class="chatlog__reference-author" style="" title="Darwin_P#7103">Darwin_P</div>
+                                <div class="chatlog__reference-content">
+                                    <span class="chatlog__reference-link" onclick="scrollToMessage(event, &#39;974331911864463370&#39;)">
+I applaud to BepisDB willing to listen to some creator&#39;s request for returning cards to its righteous owner.
+But false accusation can&#39;t be tolerated.                                    </span>
+
+                                        <span class="chatlog__reference-edited-timestamp" title="12-May-22 11:27 PM">(edited)</span>
+                                </div>
+                        </div>
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="" title="4BEraser#6071" data-user-id="492324832625688580">4BEraser</span>
+
+
+                        <span class="chatlog__timestamp">12-May-22 11:28 PM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">true</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-974332184125145168" class="chatlog__message-container " data-message-id="974332184125145168">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                        <div class="chatlog__reference-symbol"></div>
+                    <img class="chatlog__avatar" src="BepisDB%20-%20first%20circle%20-%20general%20%5B764811948462047246%5D%20%28after%202022-05-12%29.html_Files/bebfe9bc89e5d2433cacccdeda334113-741C8.png" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                        <div class="chatlog__reference">
+                                <img class="chatlog__reference-avatar" src="BepisDB%20-%20first%20circle%20-%20general%20%5B764811948462047246%5D%20%28after%202022-05-12%29.html_Files/e4256c675d846fa8ea5e645db590aa0b-1C8CA.png" alt="Avatar" loading="lazy">
+                                <div class="chatlog__reference-author" style="" title="jim60105&#129436;Taiwan#0753">jim60105&#129436;Taiwan</div>
+                                <div class="chatlog__reference-content">
+                                    <span class="chatlog__reference-link" onclick="scrollToMessage(event, &#39;974330622858375279&#39;)">
+back to topic
+I ask you to retract this false accusation.
+I have not done any of these things and have no interest.
+Please don&#39;t spread false rumors.                                    </span>
+
+                                </div>
+                        </div>
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="color: rgb(231, 76, 60)" title="Bepis#5391" data-user-id="87058826594914304">Bepis</span>
+
+
+                        <span class="chatlog__timestamp">12-May-22 11:28 PM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">the message was already deleted by the time you sent this message
+it&#39;s retracted, i don&#39;t give a fuck</span>
+
+                    </div>
+
+
+
+
+                    <div class="chatlog__reactions">
+                            <div class="chatlog__reaction" title="thumbsup">
+                                <img class="chatlog__emoji chatlog__emoji--small" alt="&#128077;" src="BepisDB%20-%20first%20circle%20-%20general%20%5B764811948462047246%5D%20%28after%202022-05-12%29.html_Files/1f44d-B3F5F.svg" loading="lazy">
+                                <span class="chatlog__reaction-count">1</span>
+                            </div>
+                            <div class="chatlog__reaction" title="ok_hand">
+                                <img class="chatlog__emoji chatlog__emoji--small" alt="&#128076;" src="BepisDB%20-%20first%20circle%20-%20general%20%5B764811948462047246%5D%20%28after%202022-05-12%29.html_Files/1f44c-35C6F.svg" loading="lazy">
+                                <span class="chatlog__reaction-count">1</span>
+                            </div>
+                    </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-974332426153242634" class="chatlog__message-container " data-message-id="974332426153242634">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="BepisDB%20-%20first%20circle%20-%20general%20%5B764811948462047246%5D%20%28after%202022-05-12%29.html_Files/e4256c675d846fa8ea5e645db590aa0b-1C8CA.png" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="" title="jim60105&#129436;Taiwan#0753" data-user-id="477041929713090560">jim60105&#129436;Taiwan</span>
+
+
+                        <span class="chatlog__timestamp">12-May-22 11:29 PM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">This is the most fake accusation I&#39;ve ever received in the Koikatsu community.
+I think I should be the developer furthest away from the money in the entire Koikatsu community. All my stuff is open source, and I reject all paid request for plugins.
+I never use Koikatu to make money.</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-974332537650413588" class="chatlog__message-container " data-message-id="974332537650413588">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="BepisDB%20-%20first%20circle%20-%20general%20%5B764811948462047246%5D%20%28after%202022-05-12%29.html_Files/bebfe9bc89e5d2433cacccdeda334113-741C8.png" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="color: rgb(231, 76, 60)" title="Bepis#5391" data-user-id="87058826594914304">Bepis</span>
+
+
+                        <span class="chatlog__timestamp">12-May-22 11:29 PM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">cool</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-974332542415171594" class="chatlog__message-container " data-message-id="974332542415171594">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="BepisDB%20-%20first%20circle%20-%20general%20%5B764811948462047246%5D%20%28after%202022-05-12%29.html_Files/14bcb77bf00d88c393dd8d25bd19f399-E76AF.png" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="" title="アラストル Ant Y#5855" data-user-id="463031802672447488">アラストル Ant Y</span>
+
+
+                        <span class="chatlog__timestamp">12-May-22 11:29 PM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">then its ok, thank you.</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-974332731053994044" class="chatlog__message-container " data-message-id="974332731053994044">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                        <div class="chatlog__reference-symbol"></div>
+                    <img class="chatlog__avatar" src="BepisDB%20-%20first%20circle%20-%20general%20%5B764811948462047246%5D%20%28after%202022-05-12%29.html_Files/3d2930493771d8d1a85f71350181001b-20073.png" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                        <div class="chatlog__reference">
+                                <img class="chatlog__reference-avatar" src="BepisDB%20-%20first%20circle%20-%20general%20%5B764811948462047246%5D%20%28after%202022-05-12%29.html_Files/bebfe9bc89e5d2433cacccdeda334113-741C8.png" alt="Avatar" loading="lazy">
+                                <div class="chatlog__reference-author" style="color: rgb(231, 76, 60)" title="Bepis#5391">Bepis</div>
+                                <div class="chatlog__reference-content">
+                                    <span class="chatlog__reference-link" onclick="scrollToMessage(event, &#39;974332184125145168&#39;)">
+the message was already deleted by the time you sent this message
+it&#39;s retracted, i don&#39;t give a fuck                                    </span>
+
+                                </div>
+                        </div>
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="" title="Meow~#2371" data-user-id="831976203032330280">Meow~</span>
+
+
+                        <span class="chatlog__timestamp">12-May-22 11:30 PM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">you are the funniest shit that I ever see</span>
+
+                            <span class="chatlog__edited-timestamp" title="12-May-22 11:30 PM">(edited)</span>
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-974332849094262815" class="chatlog__message-container " data-message-id="974332849094262815">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="BepisDB%20-%20first%20circle%20-%20general%20%5B764811948462047246%5D%20%28after%202022-05-12%29.html_Files/bebfe9bc89e5d2433cacccdeda334113-741C8.png" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="color: rgb(231, 76, 60)" title="Bepis#5391" data-user-id="87058826594914304">Bepis</span>
+
+
+                        <span class="chatlog__timestamp">12-May-22 11:30 PM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">please speak english while in my server</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-974333012441452654" class="chatlog__message-container " data-message-id="974333012441452654">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="BepisDB%20-%20first%20circle%20-%20general%20%5B764811948462047246%5D%20%28after%202022-05-12%29.html_Files/aeb28300d57bd13b1f97bdc5a61027fa-822B3.png" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="" title="Pleased Chomusuke#3800" data-user-id="163635608734924801">Pleased Chomusuke</span>
+
+
+                        <span class="chatlog__timestamp">12-May-22 11:31 PM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">Am I the only one who&#39;s surprised how many people suddenly showed up?</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+    <div id="chatlog__message-container-974333031403905034" class="chatlog__message-container " data-message-id="974333031403905034">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <div class="chatlog__short-timestamp" title="12-May-22 11:31 PM">23:31</div>
+            </div>
+
+            <div class="chatlog__message-primary">
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve"><img loading="lazy" class="chatlog__emoji chatlog__emoji--large" alt="kokisus" title="kokisus" src="https://cdn.discordapp.com/emojis/882728175816302702.png"></span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-974333037812777030" class="chatlog__message-container " data-message-id="974333037812777030">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="BepisDB%20-%20first%20circle%20-%20general%20%5B764811948462047246%5D%20%28after%202022-05-12%29.html_Files/bebfe9bc89e5d2433cacccdeda334113-741C8.png" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="color: rgb(231, 76, 60)" title="Bepis#5391" data-user-id="87058826594914304">Bepis</span>
+
+
+                        <span class="chatlog__timestamp">12-May-22 11:31 PM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">it&#39;s no coincidence</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-974333186345672715" class="chatlog__message-container " data-message-id="974333186345672715">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="BepisDB%20-%20first%20circle%20-%20general%20%5B764811948462047246%5D%20%28after%202022-05-12%29.html_Files/aeb28300d57bd13b1f97bdc5a61027fa-822B3.png" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="" title="Pleased Chomusuke#3800" data-user-id="163635608734924801">Pleased Chomusuke</span>
+
+
+                        <span class="chatlog__timestamp">12-May-22 11:32 PM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">Especially over a single generalized comment without any names attached</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-974333220055314452" class="chatlog__message-container " data-message-id="974333220055314452">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="BepisDB%20-%20first%20circle%20-%20general%20%5B764811948462047246%5D%20%28after%202022-05-12%29.html_Files/bebfe9bc89e5d2433cacccdeda334113-741C8.png" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="color: rgb(231, 76, 60)" title="Bepis#5391" data-user-id="87058826594914304">Bepis</span>
+
+
+                        <span class="chatlog__timestamp">12-May-22 11:32 PM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">oh i attached jims name lol</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-974333474708287569" class="chatlog__message-container " data-message-id="974333474708287569">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="BepisDB%20-%20first%20circle%20-%20general%20%5B764811948462047246%5D%20%28after%202022-05-12%29.html_Files/aeb28300d57bd13b1f97bdc5a61027fa-822B3.png" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="" title="Pleased Chomusuke#3800" data-user-id="163635608734924801">Pleased Chomusuke</span>
+
+
+                        <span class="chatlog__timestamp">12-May-22 11:33 PM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">Oh,I didn&#39;t know it was THAT Jim, i though he only made mods</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-974333520770134096" class="chatlog__message-container " data-message-id="974333520770134096">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="BepisDB%20-%20first%20circle%20-%20general%20%5B764811948462047246%5D%20%28after%202022-05-12%29.html_Files/4e35f7444902b10a8a8f5820b3d5b525-2749D.png" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="" title="rulya#9064" data-user-id="249780320360988673">rulya</span>
+
+
+                        <span class="chatlog__timestamp">12-May-22 11:33 PM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">I&#39;m in awe of your tolerance tbh</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-974333538411376650" class="chatlog__message-container " data-message-id="974333538411376650">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="BepisDB%20-%20first%20circle%20-%20general%20%5B764811948462047246%5D%20%28after%202022-05-12%29.html_Files/ddc010072ef9cf6dc6ec312b5a8ccf2d-65BFC.png" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="" title="4BEraser#6071" data-user-id="492324832625688580">4BEraser</span>
+
+
+                        <span class="chatlog__timestamp">12-May-22 11:33 PM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">btw, I suggest make a disclaimer here, something like: &quot;we can&#39;t make sure all the cards are from original author, if you want to protest your content on db, pleas contact... &quot;blahblah something like this.</span>
+
+                    </div>
+
+                    <div class="chatlog__attachment " onclick="">
+
+                            <a href="BepisDB%20-%20first%20circle%20-%20general%20%5B764811948462047246%5D%20%28after%202022-05-12%29.html_Files/unknown-2B642.png">
+                                <img class="chatlog__attachment-media" src="BepisDB%20-%20first%20circle%20-%20general%20%5B764811948462047246%5D%20%28after%202022-05-12%29.html_Files/unknown-2B642.png" alt="Image attachment" title="Image: unknown.png (25.82 KB)" loading="lazy">
+                            </a>
+                    </div>
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-974333618983931974" class="chatlog__message-container " data-message-id="974333618983931974">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="BepisDB%20-%20first%20circle%20-%20general%20%5B764811948462047246%5D%20%28after%202022-05-12%29.html_Files/4e35f7444902b10a8a8f5820b3d5b525-2749D.png" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="" title="rulya#9064" data-user-id="249780320360988673">rulya</span>
+
+
+                        <span class="chatlog__timestamp">12-May-22 11:33 PM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">No wonder you like bug monster girls</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-974333935410626570" class="chatlog__message-container " data-message-id="974333935410626570">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                        <div class="chatlog__reference-symbol"></div>
+                    <img class="chatlog__avatar" src="BepisDB%20-%20first%20circle%20-%20general%20%5B764811948462047246%5D%20%28after%202022-05-12%29.html_Files/bebfe9bc89e5d2433cacccdeda334113-741C8.png" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                        <div class="chatlog__reference">
+                                <img class="chatlog__reference-avatar" src="BepisDB%20-%20first%20circle%20-%20general%20%5B764811948462047246%5D%20%28after%202022-05-12%29.html_Files/ddc010072ef9cf6dc6ec312b5a8ccf2d-65BFC.png" alt="Avatar" loading="lazy">
+                                <div class="chatlog__reference-author" style="" title="4BEraser#6071">4BEraser</div>
+                                <div class="chatlog__reference-content">
+                                    <span class="chatlog__reference-link" onclick="scrollToMessage(event, &#39;974333538411376650&#39;)">
+btw, I suggest make a disclaimer here, something like: &quot;we can&#39;t make sure all the cards are from original author, if you want to protest your content on db, pleas contact... &quot;blahblah something like this.                                    </span>
+
+                                </div>
+                        </div>
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="color: rgb(231, 76, 60)" title="Bepis#5391" data-user-id="87058826594914304">Bepis</span>
+
+
+                        <span class="chatlog__timestamp">12-May-22 11:35 PM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">it&#39;s kind of a moot point because if someone finds their card on the site and they want it removed, they&#39;ll either immediately report the card or contact me
+because it&#39;s not something you really need instructions to do, it&#39;s common sense</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+    <div id="chatlog__message-container-974334016025141298" class="chatlog__message-container " data-message-id="974334016025141298">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <div class="chatlog__short-timestamp" title="12-May-22 11:35 PM">23:35</div>
+            </div>
+
+            <div class="chatlog__message-primary">
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">probably end up contacting me regardless while the reporting system is still clogged up with spam</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-974334110917066772" class="chatlog__message-container " data-message-id="974334110917066772">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="BepisDB%20-%20first%20circle%20-%20general%20%5B764811948462047246%5D%20%28after%202022-05-12%29.html_Files/ddc010072ef9cf6dc6ec312b5a8ccf2d-65BFC.png" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="" title="4BEraser#6071" data-user-id="492324832625688580">4BEraser</span>
+
+
+                        <span class="chatlog__timestamp">12-May-22 11:35 PM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">still it will give a better impression</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-974334226424033320" class="chatlog__message-container " data-message-id="974334226424033320">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                        <div class="chatlog__reference-symbol"></div>
+                    <img class="chatlog__avatar" src="BepisDB%20-%20first%20circle%20-%20general%20%5B764811948462047246%5D%20%28after%202022-05-12%29.html_Files/bebfe9bc89e5d2433cacccdeda334113-741C8.png" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                        <div class="chatlog__reference">
+                                <img class="chatlog__reference-avatar" src="BepisDB%20-%20first%20circle%20-%20general%20%5B764811948462047246%5D%20%28after%202022-05-12%29.html_Files/4e35f7444902b10a8a8f5820b3d5b525-2749D.png" alt="Avatar" loading="lazy">
+                                <div class="chatlog__reference-author" style="" title="rulya#9064">rulya</div>
+                                <div class="chatlog__reference-content">
+                                    <span class="chatlog__reference-link" onclick="scrollToMessage(event, &#39;974333618983931974&#39;)">
+No wonder you like bug monster girls                                    </span>
+
+                                </div>
+                        </div>
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="color: rgb(231, 76, 60)" title="Bepis#5391" data-user-id="87058826594914304">Bepis</span>
+
+
+                        <span class="chatlog__timestamp">12-May-22 11:36 PM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">unfortunately my heart is still on loan to rabbit and cow girls</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+    <div id="chatlog__message-container-974334370326409246" class="chatlog__message-container " data-message-id="974334370326409246">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <div class="chatlog__short-timestamp" title="12-May-22 11:36 PM">23:36</div>
+            </div>
+
+            <div class="chatlog__message-primary">
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">probably wolf too</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-974334488274419742" class="chatlog__message-container " data-message-id="974334488274419742">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                        <div class="chatlog__reference-symbol"></div>
+                    <img class="chatlog__avatar" src="BepisDB%20-%20first%20circle%20-%20general%20%5B764811948462047246%5D%20%28after%202022-05-12%29.html_Files/e4256c675d846fa8ea5e645db590aa0b-1C8CA.png" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                        <div class="chatlog__reference">
+                                <img class="chatlog__reference-avatar" src="BepisDB%20-%20first%20circle%20-%20general%20%5B764811948462047246%5D%20%28after%202022-05-12%29.html_Files/aeb28300d57bd13b1f97bdc5a61027fa-822B3.png" alt="Avatar" loading="lazy">
+                                <div class="chatlog__reference-author" style="" title="Pleased Chomusuke#3800">Pleased Chomusuke</div>
+                                <div class="chatlog__reference-content">
+                                    <span class="chatlog__reference-link" onclick="scrollToMessage(event, &#39;974333474708287569&#39;)">
+Oh,I didn&#39;t know it was THAT Jim, i though he only made mods                                    </span>
+
+                                </div>
+                        </div>
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="" title="jim60105&#129436;Taiwan#0753" data-user-id="477041929713090560">jim60105&#129436;Taiwan</span>
+
+
+                        <span class="chatlog__timestamp">12-May-22 11:37 PM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">There is only one Jim in Koikatsu&#39;s Chinese community.</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-974334674421825657" class="chatlog__message-container " data-message-id="974334674421825657">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                        <div class="chatlog__reference-symbol"></div>
+                    <img class="chatlog__avatar" src="BepisDB%20-%20first%20circle%20-%20general%20%5B764811948462047246%5D%20%28after%202022-05-12%29.html_Files/aeb28300d57bd13b1f97bdc5a61027fa-822B3.png" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                        <div class="chatlog__reference">
+                                <img class="chatlog__reference-avatar" src="BepisDB%20-%20first%20circle%20-%20general%20%5B764811948462047246%5D%20%28after%202022-05-12%29.html_Files/bebfe9bc89e5d2433cacccdeda334113-741C8.png" alt="Avatar" loading="lazy">
+                                <div class="chatlog__reference-author" style="color: rgb(231, 76, 60)" title="Bepis#5391">Bepis</div>
+                                <div class="chatlog__reference-content">
+                                    <span class="chatlog__reference-link" onclick="scrollToMessage(event, &#39;974334226424033320&#39;)">
+unfortunately my heart is still on loan to rabbit and cow girls                                    </span>
+
+                                </div>
+                        </div>
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="" title="Pleased Chomusuke#3800" data-user-id="163635608734924801">Pleased Chomusuke</span>
+
+
+                        <span class="chatlog__timestamp">12-May-22 11:38 PM</span>
+                    </div>
+
+
+                    <div class="chatlog__attachment " onclick="">
+
+                            <a href="BepisDB%20-%20first%20circle%20-%20general%20%5B764811948462047246%5D%20%28after%202022-05-12%29.html_Files/Cow-Girl-61D52.png">
+                                <img class="chatlog__attachment-media" src="BepisDB%20-%20first%20circle%20-%20general%20%5B764811948462047246%5D%20%28after%202022-05-12%29.html_Files/Cow-Girl-61D52.png" alt="Image attachment" title="Image: Cow-Girl.png (1.16 MB)" loading="lazy">
+                            </a>
+                    </div>
+
+
+
+                    <div class="chatlog__reactions">
+                            <div class="chatlog__reaction" title="LinusPainTips">
+                                <img class="chatlog__emoji chatlog__emoji--small" alt="LinusPainTips" src="BepisDB%20-%20first%20circle%20-%20general%20%5B764811948462047246%5D%20%28after%202022-05-12%29.html_Files/865566959399338014-007DC.png" loading="lazy">
+                                <span class="chatlog__reaction-count">1</span>
+                            </div>
+                            <div class="chatlog__reaction" title="thumbsup">
+                                <img class="chatlog__emoji chatlog__emoji--small" alt="&#128077;" src="BepisDB%20-%20first%20circle%20-%20general%20%5B764811948462047246%5D%20%28after%202022-05-12%29.html_Files/1f44d-B3F5F.svg" loading="lazy">
+                                <span class="chatlog__reaction-count">2</span>
+                            </div>
+                    </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-974334686514016378" class="chatlog__message-container " data-message-id="974334686514016378">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                        <div class="chatlog__reference-symbol"></div>
+                    <img class="chatlog__avatar" src="BepisDB%20-%20first%20circle%20-%20general%20%5B764811948462047246%5D%20%28after%202022-05-12%29.html_Files/8cacaa85ed15779148d18f7945c278ef-F369E.png" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                        <div class="chatlog__reference">
+                                <img class="chatlog__reference-avatar" src="BepisDB%20-%20first%20circle%20-%20general%20%5B764811948462047246%5D%20%28after%202022-05-12%29.html_Files/ddc010072ef9cf6dc6ec312b5a8ccf2d-65BFC.png" alt="Avatar" loading="lazy">
+                                <div class="chatlog__reference-author" style="" title="4BEraser#6071">4BEraser</div>
+                                <div class="chatlog__reference-content">
+                                    <span class="chatlog__reference-link" onclick="scrollToMessage(event, &#39;974334110917066772&#39;)">
+still it will give a better impression                                    </span>
+
+                                </div>
+                        </div>
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="" title="&#119825;&#119812;&#119813;&#119816;&#119810;&#119828;&#119819;#5627" data-user-id="910042704031911988">&#119825;&#119812;&#119813;&#119816;&#119810;&#119828;&#119819;</span>
+
+
+                        <span class="chatlog__timestamp">12-May-22 11:38 PM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">I know I mainly lurk here but I agree, it will get rid of a lot of bullshit nonsense happening recently that i&#39;ve seen in reports and such</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-974334869394055238" class="chatlog__message-container " data-message-id="974334869394055238">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                        <div class="chatlog__reference-symbol"></div>
+                    <img class="chatlog__avatar" src="BepisDB%20-%20first%20circle%20-%20general%20%5B764811948462047246%5D%20%28after%202022-05-12%29.html_Files/aeb28300d57bd13b1f97bdc5a61027fa-822B3.png" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                        <div class="chatlog__reference">
+                                <img class="chatlog__reference-avatar" src="BepisDB%20-%20first%20circle%20-%20general%20%5B764811948462047246%5D%20%28after%202022-05-12%29.html_Files/8cacaa85ed15779148d18f7945c278ef-F369E.png" alt="Avatar" loading="lazy">
+                                <div class="chatlog__reference-author" style="" title="&#119825;&#119812;&#119813;&#119816;&#119810;&#119828;&#119819;#5627">&#119825;&#119812;&#119813;&#119816;&#119810;&#119828;&#119819;</div>
+                                <div class="chatlog__reference-content">
+                                    <span class="chatlog__reference-link" onclick="scrollToMessage(event, &#39;974334686514016378&#39;)">
+I know I mainly lurk here but I agree, it will get rid of a lot of bullshit nonsense happening recently that i&#39;ve seen in reports and such                                    </span>
+
+                                </div>
+                        </div>
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="" title="Pleased Chomusuke#3800" data-user-id="163635608734924801">Pleased Chomusuke</span>
+
+
+                        <span class="chatlog__timestamp">12-May-22 11:38 PM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">Will it tho?
+The author will still come and ask Bepis to move them to their account or delete it</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-974334952827129896" class="chatlog__message-container " data-message-id="974334952827129896">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                        <div class="chatlog__reference-symbol"></div>
+                    <img class="chatlog__avatar" src="BepisDB%20-%20first%20circle%20-%20general%20%5B764811948462047246%5D%20%28after%202022-05-12%29.html_Files/ddc010072ef9cf6dc6ec312b5a8ccf2d-65BFC.png" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                        <div class="chatlog__reference">
+                                <img class="chatlog__reference-avatar" src="BepisDB%20-%20first%20circle%20-%20general%20%5B764811948462047246%5D%20%28after%202022-05-12%29.html_Files/aeb28300d57bd13b1f97bdc5a61027fa-822B3.png" alt="Avatar" loading="lazy">
+                                <div class="chatlog__reference-author" style="" title="Pleased Chomusuke#3800">Pleased Chomusuke</div>
+                                <div class="chatlog__reference-content">
+                                    <span class="chatlog__reference-link" onclick="scrollToMessage(event, &#39;974334869394055238&#39;)">
+Will it tho?
+The author will still come and ask Bepis to move them to their account or delete it                                    </span>
+
+                                </div>
+                        </div>
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="" title="4BEraser#6071" data-user-id="492324832625688580">4BEraser</span>
+
+
+                        <span class="chatlog__timestamp">12-May-22 11:39 PM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">but their mood will be diefferent</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-974335093768323072" class="chatlog__message-container " data-message-id="974335093768323072">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="BepisDB%20-%20first%20circle%20-%20general%20%5B764811948462047246%5D%20%28after%202022-05-12%29.html_Files/bebfe9bc89e5d2433cacccdeda334113-741C8.png" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="color: rgb(231, 76, 60)" title="Bepis#5391" data-user-id="87058826594914304">Bepis</span>
+
+
+                        <span class="chatlog__timestamp">12-May-22 11:39 PM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">the report system will remain a bit clunky until i can rework it into a form-based solution that allows me to easily click yes/no rather than action things manually</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+    <div id="chatlog__message-container-974335155764359259" class="chatlog__message-container " data-message-id="974335155764359259">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <div class="chatlog__short-timestamp" title="12-May-22 11:40 PM">23:40</div>
+            </div>
+
+            <div class="chatlog__message-primary">
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">i can only work on so many things at once</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-974335207543029811" class="chatlog__message-container " data-message-id="974335207543029811">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="BepisDB%20-%20first%20circle%20-%20general%20%5B764811948462047246%5D%20%28after%202022-05-12%29.html_Files/e4256c675d846fa8ea5e645db590aa0b-1C8CA.png" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="" title="jim60105&#129436;Taiwan#0753" data-user-id="477041929713090560">jim60105&#129436;Taiwan</span>
+
+
+                        <span class="chatlog__timestamp">12-May-22 11:40 PM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">I joined this server after being notified that someone was spreading rumors.
+I&#39;m not going to be involved in anything about depisdb.
+I&#39;ve saved the conversation above for insurance and will now leave this server.
+I wish you a good time. bye</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+    <div id="chatlog__message-container-974335219131904041" class="chatlog__message-container " data-message-id="974335219131904041">
+        <div class="chatlog__message">
+            <div class="chatlog__message-aside">
+                    <img class="chatlog__avatar" src="BepisDB%20-%20first%20circle%20-%20general%20%5B764811948462047246%5D%20%28after%202022-05-12%29.html_Files/bebfe9bc89e5d2433cacccdeda334113-741C8.png" alt="Avatar" loading="lazy">
+            </div>
+
+            <div class="chatlog__message-primary">
+                    <div class="chatlog__header">
+                        <span class="chatlog__author" style="color: rgb(231, 76, 60)" title="Bepis#5391" data-user-id="87058826594914304">Bepis</span>
+
+
+                        <span class="chatlog__timestamp">12-May-22 11:40 PM</span>
+                    </div>
+
+                    <div class="chatlog__content chatlog__markdown">
+                        <span class="chatlog__markdown-preserve">so having the chinese discord council infiltrate here every 3 days to argue with me is only going to slow me down</span>
+
+                    </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+</div>
+
+<div class="postamble">
+    <div class="postamble__entry">Exported 86 message(s)</div>
+</div>
+
+</body>
+
+</html>
